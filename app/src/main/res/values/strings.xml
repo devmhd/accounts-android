@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Accounts</string>
+    <string name="title_payables">Payables</string>
+    <string name="title_receivables">Receivables</string>
+    <string name="title_accounts">Accounts</string>
+</resources>

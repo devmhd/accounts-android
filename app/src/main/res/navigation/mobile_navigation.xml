@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_accounts">
+
+    <fragment
+        android:id="@+id/navigation_accounts"
+        android:name="me.mehedee.accounts.ui.accounts.AccountsFragment"
+        android:label="@string/title_accounts"
+        tools:layout="@layout/fragment_receivables" />
+
+    <fragment
+        android:id="@+id/navigation_payables"
+        android:name="me.mehedee.accounts.ui.payables.HomeFragment"
+        android:label="@string/title_payables"
+        tools:layout="@layout/fragment_payables" />
+
+    <fragment
+        android:id="@+id/navigation_receivables"
+        android:name="me.mehedee.accounts.ui.receivables.NotificationsFragment"
+        android:label="@string/title_receivables"
+        tools:layout="@layout/fragment_accounts" />
+
+
+</navigation>
