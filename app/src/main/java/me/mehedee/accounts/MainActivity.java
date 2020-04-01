@@ -1,6 +1,11 @@
 package me.mehedee.accounts;
 
+import android.content.ContentUris;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
@@ -24,6 +29,26 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        Uri uri = new Uri.Builder().authority("me.mehedee.ingredientsexpress").scheme("content").appendPath("flight").build();
+
+        Log.d("TAAAAAG", uri.toString());
+
+        String[] mProjection = {"id", "source", "destination", "price"};
+
+        Cursor c = getContentResolver().query(
+                uri,
+                null,
+                null,
+                null, null);
+
+        while (c.moveToNext()){
+            Log.d("TAAGAA", "ID: " + c.getInt(0));
+            Log.d("TAAGAA", "source: " + c.getString(1));
+            Log.d("TAAGAA", "destination: " + c.getString(2));
+            Log.d("TAAGAA", "price: " + c.getString(3));
+        }
+
     }
 
 }

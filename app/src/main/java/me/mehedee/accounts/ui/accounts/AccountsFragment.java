@@ -1,6 +1,7 @@
 package me.mehedee.accounts.ui.accounts;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import me.mehedee.accounts.R;
 import me.mehedee.accounts.databinding.FragmentAccountsBinding;
 import me.mehedee.accounts.model.Account;
+import me.mehedee.accounts.persistence.MainDatabase;
+import me.mehedee.accounts.persistence.entity.AccountEntity;
 
 public class AccountsFragment extends Fragment {
 
@@ -37,6 +42,26 @@ public class AccountsFragment extends Fragment {
         FragmentAccountsBinding binding = DataBindingUtil.setContentView(this.getActivity(), R.layout.fragment_accounts);
 
 
+        MainDatabase mainDatabase = MainDatabase.getInstance();
+
+
+//        mainDatabase.accountDao().insert(
+//                new AccountEntity("Mariahoom", 0, LocalDateTime.now()),
+//                new AccountEntity("Mariaha", 10, LocalDateTime.now()),
+//                new AccountEntity("Mariaho", 30, LocalDateTime.now()),
+//                new AccountEntity("Maria ha ha", 25, LocalDateTime.now())
+//        ).doOnComplete(() -> {
+//            Log.d(AccountsFragment.class.getName(), "Insertion complete");
+//        }).subscribeOn(Schedulers.io()).subscribe();
+
+        Observable<List<AccountEntity>> titties = mainDatabase.accountDao().getAllBalanceSorted();
+
+        titties.map(l -> l.toString())
+                .doOnNext(s -> Log.d("WADDA", s))
+                .subscribeOn(Schedulers.io())
+                .subscribe();
+
+
         binding.rvAccounts.setHasFixedSize(true);
         binding.rvAccounts.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -48,7 +73,7 @@ public class AccountsFragment extends Fragment {
             //mAdapter.notifyDataSetChanged();
         });
 
-        accountsViewModel.getAllAccounts().observe(this, new Observer<List<Account>>() {
+        accountsViewModel.getAllAccounts().observe(getViewLifecycleOwner(), new Observer<List<Account>>() {
             @Override
             public void onChanged(@Nullable List<Account> e) {
                 mAdapter.notifyDataSetChanged();
